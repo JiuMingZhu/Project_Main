@@ -616,7 +616,7 @@ namespace UMCMain
             if (value is string)
             {
                 if (GalaSoft.MvvmLight.ViewModelBase.IsInDesignModeStatic)
-                    return new BitmapImage(new Uri((@"D:\我的资源\Image\Singer\" + value.ToString() + ".png"), UriKind.Relative));
+                    return new BitmapImage(new Uri((@"C:\我的资源\Resource\Image\Singer\" + value.ToString() + ".png"), UriKind.Relative));
                 string str = AppDomain.CurrentDomain.BaseDirectory + @"Image\Singer\" + value.ToString() + ".png";
                 return new BitmapImage(new Uri(str, UriKind.RelativeOrAbsolute));
             }
@@ -641,7 +641,7 @@ namespace UMCMain
                 System.Windows.Media.ImageBrush ib = new System.Windows.Media.ImageBrush();
                 if (GalaSoft.MvvmLight.ViewModelBase.IsInDesignModeStatic)
                 {
-                    ib.ImageSource = new BitmapImage(new Uri(@"D:\我的资源\Image\Icon\" + value.ToString() + ".png", UriKind.Absolute));
+                    ib.ImageSource = new BitmapImage(new Uri(@"C:\我的资源\Resource\Image\Icon\" + value.ToString() + ".png", UriKind.Absolute));
                     return ib;
                 }
                 string str = AppDomain.CurrentDomain.BaseDirectory + @"Image\Icon\" + value.ToString() + ".png";

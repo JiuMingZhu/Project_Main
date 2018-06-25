@@ -27,8 +27,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UMCMusic", "UMCMusic\UMCMus
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DownloadTest", "DownloadTest\DownloadTest.csproj", "{A037AC70-7608-48B8-9A34-2A1645031ADA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CustomControlsTest", "CustomControlsTest\CustomControlsTest.csproj", "{00BF2E61-B13F-4D6E-A6D6-BE4FD97BC0D7}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -71,10 +69,6 @@ Global
 		{A037AC70-7608-48B8-9A34-2A1645031ADA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A037AC70-7608-48B8-9A34-2A1645031ADA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A037AC70-7608-48B8-9A34-2A1645031ADA}.Release|Any CPU.Build.0 = Release|Any CPU
-		{00BF2E61-B13F-4D6E-A6D6-BE4FD97BC0D7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{00BF2E61-B13F-4D6E-A6D6-BE4FD97BC0D7}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{00BF2E61-B13F-4D6E-A6D6-BE4FD97BC0D7}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{00BF2E61-B13F-4D6E-A6D6-BE4FD97BC0D7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -89,7 +83,6 @@ Global
 		{48C71B3D-7ACF-4ABF-A063-6409227CDA7F} = {3612E19D-0CE7-4799-936F-1C0D4BD966FB}
 		{7E8A9C3B-9A2D-448A-A487-452FBE477CF9} = {B65FE019-7736-4A56-B64E-93CB6681259B}
 		{A037AC70-7608-48B8-9A34-2A1645031ADA} = {3612E19D-0CE7-4799-936F-1C0D4BD966FB}
-		{00BF2E61-B13F-4D6E-A6D6-BE4FD97BC0D7} = {3612E19D-0CE7-4799-936F-1C0D4BD966FB}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {8D6C71F3-B004-47C0-B44D-51EADEA1354D}

@@ -152,6 +152,10 @@
       <Project>{a250551e-8ed5-43af-8567-9ee3d7fe4f13}</Project>
       <Name>AppResourceManager</Name>
     </ProjectReference>
+    <ProjectReference Include="..\AppResource\AppResource.csproj">
+      <Project>{0af6afcc-0c57-4ae8-8b66-f1965399dc0c}</Project>
+      <Name>AppResource</Name>
+    </ProjectReference>
     <ProjectReference Include="..\UMCMusic\UMCMusic.csproj">
       <Project>{7e8a9c3b-9a2d-448a-a487-452fbe477cf9}</Project>
       <Name>UMCMusic</Name>
