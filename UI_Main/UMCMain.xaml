@@ -1,0 +1,514 @@
+﻿<Window x:Class="UMCMain.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+        xmlns:sys="clr-namespace:System;assembly=mscorlib"
+        xmlns:local="clr-namespace:UMCMain" 
+        xmlns:cmd="clr-namespace:GalaSoft.MvvmLight.Command;assembly=GalaSoft.MvvmLight.Platform"
+        Title="扯淡云(并没有)音乐" Height="640" Width="1050" MinHeight="530" MinWidth="505"
+        WindowStartupLocation="CenterScreen" WindowStyle="None" AllowsTransparency="True" ResizeMode="CanResizeWithGrip"
+        Icon="./Resource/Icon.ico"
+        >
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="Closing">
+            <!--<i:InvokeCommandAction Command="{Binding Path=ClosingCommandFunc}"/>-->
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
+    <Window.Resources>
+
+    </Window.Resources>
+    <Grid Background="#F3F3F5" x:Name="Root_Grid">
+        <Grid.DataContext>
+            <local:UMCMainViewMode/>
+        </Grid.DataContext>
+        <Grid.Resources>
+            <local:IconSourceConverter x:Key="IconSourceConverter"/>
+            <!--样式-->
+            <Style x:Key="Title_Button" TargetType="{x:Type Button}">
+                <Setter Property="Control.Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="{x:Type Button}">
+                            <Border x:Name="Chrome" BorderBrush="{TemplateBinding BorderBrush}" Background="{TemplateBinding Background}" SnapsToDevicePixels="true">
+                                <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="{TemplateBinding Padding}" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                            </Border>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+                <Setter Property="Width" Value="45"></Setter>
+                <Setter Property="Background" Value="{x:Null}"></Setter>
+                <Setter Property="Foreground" Value="White"></Setter>
+                <Setter Property="FontSize" Value="20"></Setter>
+                <Setter Property="FontFamily" Value="Microsoft YaHei UI Light"></Setter>
+                <Setter Property="Command" Value="{Binding TitleButton_Click}"></Setter>
+                <Style.Triggers>
+                    <Trigger Property="Button.IsMouseOver"  Value="true">
+                        <Setter Property="Background" Value="#ec1825"></Setter>
+                    </Trigger>
+                </Style.Triggers>
+            </Style>
+            <Style x:Key="Title_Text" TargetType="{x:Type TextBlock}">
+                <Setter Property="Margin" Value="10,0,0,0"></Setter>
+                <Setter Property="Foreground" Value="White"></Setter>
+                <Setter Property="VerticalAlignment" Value="Center"></Setter>
+                <Setter Property="FontSize" Value="13"></Setter>
+                <Setter Property="FontFamily" Value="Microsoft YaHei UI Light"></Setter>
+            </Style>
+            <Style x:Key="List_Text" TargetType="{x:Type TextBlock}">
+                <Setter Property="VerticalAlignment" Value="Center"/>
+                <Setter Property="HorizontalAlignment" Value="Left"/>
+                <Setter Property="Margin" Value="10"/>
+                <Setter Property="FontSize" Value="13"/>
+                <Setter Property="Foreground" Value="#333333"/>
+            </Style>
+            <Style x:Key="List_Title" TargetType="{x:Type TextBlock}">
+                <Setter Property="VerticalAlignment" Value="Center"/>
+                <Setter Property="HorizontalAlignment" Value="Left"/>
+                <Setter Property="Margin" Value="10"/>
+                <Setter Property="FontSize" Value="13"/>
+                <Setter Property="Foreground" Value="DarkGray"/>
+            </Style>
+            <Style x:Key="Lits_Recangle" TargetType="{x:Type Rectangle}">
+                <Setter Property="Width" Value="20"/>
+                <Setter Property="Height" Value="20"/>
+                <Setter Property="VerticalAlignment" Value="Center"/>
+                <Setter Property="HorizontalAlignment" Value="Center"/>
+                <Setter Property="Margin" Value="7"/>
+            </Style>
+            <Style x:Key="PlayControl_Recangle0" TargetType="{x:Type Rectangle}">
+                <Setter Property="Width" Value="30"/>
+                <Setter Property="Height" Value="30"/>
+                <Setter Property="VerticalAlignment" Value="Center"/>
+                <Setter Property="HorizontalAlignment" Value="Center"/>
+                <Setter Property="Margin" Value="7"/>
+            </Style>
+            <Style x:Key="PlayControl_Recangle1" TargetType="{x:Type Rectangle}">
+                <Setter Property="Width" Value="40"/>
+                <Setter Property="Height" Value="40"/>
+                <Setter Property="VerticalAlignment" Value="Center"/>
+                <Setter Property="HorizontalAlignment" Value="Center"/>
+                <Setter Property="Margin" Value="7"/>
+            </Style>
+            <Style x:Key="PlayControl_Recangle2" TargetType="{x:Type Rectangle}">
+                <Setter Property="Width" Value="25"/>
+                <Setter Property="Height" Value="25"/>
+                <Setter Property="VerticalAlignment" Value="Top"/>
+                <Setter Property="HorizontalAlignment" Value="Center"/>
+                <Setter Property="Margin" Value="10"/>
+            </Style>
+            <Style x:Key="List_Border" TargetType="{x:Type Border}">
+                <Setter Property="HorizontalAlignment" Value="Stretch"/>
+                <Setter Property="BorderThickness" Value="3"/>
+                <Setter Property="BorderBrush" Value="{Binding Path=Background,ElementName=Root_Grid}"/>
+            </Style>
+            <Style x:Key="List_Button" TargetType="{x:Type Button}">
+                <!--<EventSetter Event="Click" Handler="Button_Click"/>-->
+                <Setter Property="Width" Value="190"/>
+                <Setter Property="Height" Value="40"/>
+                <Setter Property="BorderBrush" Value="{x:Null}"/>
+                <Setter Property="BorderThickness" Value="0"/>
+                <Setter Property="Command" Value="{Binding ListButton_Click}"/>
+                <Setter Property="CommandParameter" Value="{Binding FuncKey}"/>
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate>
+                            <Border Height="40" Name="border" Style="{StaticResource ResourceKey=List_Border}" BorderThickness="1">
+                                <StackPanel Orientation="Horizontal" Width="190" >
+                                    <Rectangle Style="{StaticResource ResourceKey=Lits_Recangle}" Fill="{Binding ButtonContent_Img,Converter={StaticResource ResourceKey=IconSourceConverter}}"></Rectangle>
+                                    <TextBlock Text="{Binding ButtonContent_Text}" Style="{StaticResource ResourceKey=List_Text}"></TextBlock>
+                                </StackPanel>
+                            </Border>
+                            <ControlTemplate.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter Property="Background" TargetName="border" Value="#E8E8EA"/>
+                                    <Setter Property="BorderBrush" TargetName="border" Value="#E8E8EA"/>
+                                </Trigger>
+                                <Trigger Property="IsKeyboardFocused" Value="True">
+                                    <Setter Property="Background" TargetName="border" Value="#C8C9CC"/>
+                                    <Setter Property="BorderBrush" TargetName="border" Value="#C8C9CC"/>
+                                </Trigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+                <Style.Triggers>
+                    <EventTrigger RoutedEvent="PreviewMouseLeftButtonDown">
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <DoubleAnimation  Storyboard.TargetProperty="Width" Duration="0:0:0.1"  To="187" AutoReverse="False" />
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </EventTrigger>
+                    <EventTrigger RoutedEvent="PreviewMouseLeftButtonUp">
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <DoubleAnimation  Storyboard.TargetProperty="Width" Duration="0:0:0.5"  To="190" AutoReverse="False" />
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </EventTrigger>
+                </Style.Triggers>
+            </Style>
+            <!--模板-->
+            <!--Thumb模板-->
+            <ControlTemplate x:Key="ThumbTemplate" TargetType="{x:Type Thumb}">
+                <Grid Width="8">
+                    <Border x:Name="Bg" CornerRadius="5" Margin="0"  SnapsToDevicePixels="True" Background="#ADAFB2" HorizontalAlignment="Stretch"/>
+                </Grid>
+                <ControlTemplate.Triggers>
+                    <!--增加故事版，鼠标离开3秒后消失-->
+                    <Trigger Property="IsMouseOver" Value="True">
+                        <Setter Property="Background" Value="#8A8A8A" TargetName="Bg"/>
+                    </Trigger>
+                </ControlTemplate.Triggers>
+            </ControlTemplate>
+            <!--RepeatButton模板-->
+            <ControlTemplate x:Key="RepeatButtonTemplate" TargetType="{x:Type RepeatButton}">
+                <Grid>
+                    <Border x:Name="Border" Margin="1" CornerRadius="2" BorderThickness="1" >
+                        <Border.BorderBrush>
+                            <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                                <LinearGradientBrush.GradientStops>
+                                    <GradientStopCollection>
+                                        <GradientStop Color="{DynamicResource BorderMediumColor}" Offset="0.0" />
+                                        <GradientStop Color="{DynamicResource BorderDarkColor}" Offset="1.0" />
+                                    </GradientStopCollection>
+                                </LinearGradientBrush.GradientStops>
+                            </LinearGradientBrush>
+                        </Border.BorderBrush>
+                        <Border.Background>
+                            <LinearGradientBrush StartPoint="0,0"
+                                 EndPoint="0,1">
+                                <LinearGradientBrush.GradientStops>
+                                    <GradientStopCollection>
+                                        <GradientStop Color="{DynamicResource ControlLightColor}"/>
+                                        <GradientStop Color="{DynamicResource ControlMediumColor}" Offset="1.0" />
+                                    </GradientStopCollection>
+                                </LinearGradientBrush.GradientStops>
+                            </LinearGradientBrush>
+                        </Border.Background>
+                    </Border>
+                </Grid>
+            </ControlTemplate>
+            <!--滚动条模板-->
+            <ControlTemplate x:Key="VerticalScrollBarTemplate" TargetType="{x:Type ScrollBar}">
+                <Grid Height="{TemplateBinding Height}">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <!--内部背景-->
+                    <!--<Border Grid.Row="1" Margin="0" CornerRadius="5" SnapsToDevicePixels="True" Opacity="0.3" Background="SkyBlue"></Border>-->
+                    <!--中间滑动区域-->
+                    <Track IsDirectionReversed="True" Grid.Row="1">
+                        <!--上滑块-->
+                        <Track.DecreaseRepeatButton>
+                            <RepeatButton Command="ScrollBar.PageUpCommand" IsTabStop="False" Interval="50" Template="{StaticResource ResourceKey=RepeatButtonTemplate}"/>
+                        </Track.DecreaseRepeatButton>
+                        <!--中间滑块-->
+                        <Track.Thumb>
+                            <Thumb Template="{StaticResource ThumbTemplate}"  Background="#C8C9CC" MinHeight="10" Margin="0"/>
+                        </Track.Thumb>
+                        <!--下滑块-->
+                        <Track.IncreaseRepeatButton>
+                            <RepeatButton x:Name="HorizontalLargeIncrease" Command="ScrollBar.PageDownCommand" IsTabStop="False" Interval="50" Template="{StaticResource ResourceKey=RepeatButtonTemplate}"/>
+                        </Track.IncreaseRepeatButton>
+                    </Track>
+                </Grid>
+            </ControlTemplate>
+            <!--ScrollView模板-->
+            <ControlTemplate x:Key="ScrollViewTemplate" TargetType="{x:Type ScrollViewer}">
+                <Grid Background="{TemplateBinding Background}">
+                    <ScrollContentPresenter  
+                        Grid.Row="0" Grid.Column="0" 
+                        x:Name="PART_ScrollContentPresenter" CanContentScroll="{TemplateBinding CanContentScroll}"
+                        CanHorizontallyScroll="False" CanVerticallyScroll="False" ContentTemplate="{TemplateBinding ContentTemplate}"
+                        Content="{TemplateBinding Content}" Margin="{TemplateBinding Padding}"
+                        />
+                    <!--垂直滚动条 -->
+                    <ScrollBar     
+                        Grid.Row="0"  Grid.Column="1" HorizontalAlignment="Right"
+                        x:Name="PART_VerticalScrollBar" AutomationProperties.AutomationId="VerticalScrollBar"
+                        ViewportSize="{TemplateBinding ViewportHeight}"
+                        Cursor="Arrow"  Maximum="{TemplateBinding ScrollableHeight}"
+                        Minimum="0" Visibility="{TemplateBinding ComputedVerticalScrollBarVisibility}"
+                        Value="{Binding VerticalOffset, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}">
+                        <ScrollBar.Template>
+                            <ControlTemplate>
+                                <Grid Height="{TemplateBinding Height}">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="*" />
+                                        <RowDefinition Height="Auto" />
+                                    </Grid.RowDefinitions>
+                                    <!--内部背景-->
+                                    <!--<Border Grid.Row="1" Margin="0" CornerRadius="5" SnapsToDevicePixels="True" Opacity="0.3" Background="SkyBlue"></Border>-->
+                                    <!--中间滑动区域-->
+                                    <Track IsDirectionReversed="True" Grid.Row="1">
+                                        <!--上滑块-->
+                                        <Track.DecreaseRepeatButton>
+                                            <RepeatButton Command="ScrollBar.PageUpCommand" IsTabStop="False" Interval="50" Template="{StaticResource ResourceKey=RepeatButtonTemplate}"/>
+                                        </Track.DecreaseRepeatButton>
+                                        <!--中间滑块-->
+                                        <Track.Thumb>
+                                            <Thumb Template="{StaticResource ThumbTemplate}"  Background="#C8C9CC" MinHeight="10" Margin="0" HorizontalAlignment="Right"/>
+                                        </Track.Thumb>
+                                        <!--下滑块-->
+                                        <Track.IncreaseRepeatButton>
+                                            <RepeatButton x:Name="HorizontalLargeIncrease" Command="ScrollBar.PageDownCommand" IsTabStop="False" Interval="50" Template="{StaticResource ResourceKey=RepeatButtonTemplate}"/>
+                                        </Track.IncreaseRepeatButton>
+                                    </Track>
+                                </Grid>
+                            </ControlTemplate>
+                        </ScrollBar.Template>
+                    </ScrollBar>
+                </Grid>
+            </ControlTemplate>
+        </Grid.Resources>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="30" MaxHeight="30" MinHeight="30"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="60"></RowDefinition>
+        </Grid.RowDefinitions>
+        <!--顶部标题栏-->
+        <Grid Grid.Row="0" Background="#bc242d" MouseMove="Title_MouseMove">
+            <TextBlock Text="{Binding Title}" Style="{StaticResource ResourceKey=Title_Text}"/>
+            <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
+                <Button Style="{StaticResource ResourceKey=Title_Button}" CommandParameter="Min">-</Button>
+                <Button Style="{StaticResource ResourceKey=Title_Button}" CommandParameter="Max">□</Button>
+                <Button Style="{StaticResource ResourceKey=Title_Button}" CommandParameter="Close">×</Button>
+            </StackPanel>
+        </Grid>
+        <!--中间界面-->
+        <Grid Margin="0,30,-0.4,0" Grid.RowSpan="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="190"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <!--左侧列表栏-->
+            <Border BorderBrush="#A8A8A8" BorderThickness="0,0,0.5,0">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="45"></RowDefinition>
+                        <RowDefinition></RowDefinition>
+                        <RowDefinition Height="60"></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <!--按钮，缩小侧边栏-->
+                    <Grid Grid.Row="0" MinWidth="80">
+                        <Border Height="45">
+                            <Border.Resources>
+                                <local:IconSourceConverter x:Key="IconSourceConverter"/>
+                            </Border.Resources>
+                            <Rectangle Height="20" Width="20" HorizontalAlignment="Left" VerticalAlignment="Center"  Margin="10" Fill="{Binding ReSizeBtn,Converter={StaticResource ResourceKey=IconSourceConverter}}"></Rectangle>
+                        </Border>
+                    </Grid>
+                    <!--中间的滚动条-->
+                    <ScrollViewer Grid.Row="1" Template="{StaticResource ScrollViewTemplate}">
+                        <StackPanel>
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition></RowDefinition>
+                                    <RowDefinition></RowDefinition>
+                                    <RowDefinition></RowDefinition>
+                                    <RowDefinition></RowDefinition>
+                                </Grid.RowDefinitions>
+                                <Grid.Resources>
+                                    <local:IconSourceConverter x:Key="IconSourceConverter"></local:IconSourceConverter>
+                                </Grid.Resources>
+                                <!--固定的几个选项-->
+                                <Grid Grid.Row="0">
+                                    <ItemsControl x:Name="StaticItems" ItemsSource="{Binding StaticButtons}">
+                                        <ItemsControl.ItemTemplate>
+                                            <DataTemplate>
+                                                <!--这里Button和ItemControl的DataContext不一致，所以导致了Button在Style里的Command失效-->
+                                                <Button Style="{StaticResource ResourceKey=List_Button}" Command="{Binding ElementName=StaticItems, Path=DataContext.ListButton_Click}"></Button>
+                                            </DataTemplate>
+                                        </ItemsControl.ItemTemplate>
+                                    </ItemsControl>
+                                </Grid>
+                                <!--我的音乐，也是固定的-->
+                                <Grid Grid.Row="1">
+                                    <StackPanel Orientation="Vertical">
+
+                                    </StackPanel>
+                                </Grid>
+                                <!--创建的歌单-->
+                                <Grid Grid.Row="2">
+                                    <StackPanel>
+                                        <Border Height="50">
+                                            <DockPanel>
+                                                <TextBlock Text="创建的歌单" Style="{StaticResource ResourceKey=List_Title}"></TextBlock>
+                                                <Button VerticalAlignment="Center" HorizontalAlignment="Right" Margin="10" Height="20" Width="20">
+                                                    <Button.Template>
+                                                        <ControlTemplate TargetType="{x:Type Button}">
+                                                            <Border x:Name="border">
+                                                                <Border.Background>
+                                                                    <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                                                    </LinearGradientBrush>
+                                                                </Border.Background>
+                                                                <Rectangle Margin="2" Fill="{Binding CreateFaviourtes,Converter={StaticResource ResourceKey=IconSourceConverter}}"/>
+                                                            </Border>
+                                                        </ControlTemplate>
+                                                    </Button.Template>
+                                                </Button>
+                                            </DockPanel>
+                                        </Border>
+                                    </StackPanel>
+                                </Grid>
+                                <!--收藏的歌单-->
+                                <Grid Grid.Row="3">
+                                    <StackPanel>
+                                        <Border Height="50">
+                                            <DockPanel>
+                                                <TextBlock Text="收藏的歌单" Style="{StaticResource ResourceKey=List_Title}"></TextBlock>
+                                            </DockPanel>
+                                        </Border>
+                                    </StackPanel>
+                                </Grid>
+                            </Grid>
+                        </StackPanel>
+                    </ScrollViewer >
+                    <!--头像、设置按钮-->
+                    <Border Height="60" MinHeight="60" Grid.Row="2" BorderBrush="#A8A8A8" BorderThickness="0,0.5,0,0">
+                        <Grid>
+                            <Grid.Resources>
+                                <local:IconSourceConverter x:Key="IconSourceConverter"/>
+                            </Grid.Resources>
+                            <Grid.DataContext>
+                                <local:UMCMainViewMode/>
+                            </Grid.DataContext>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="6.5*"/>
+                                <ColumnDefinition Width="2*"/>
+                                <ColumnDefinition Width="2*"/>
+                            </Grid.ColumnDefinitions>
+                            <Button PreviewMouseLeftButtonDown="Button_PreviewMouseLeftButtonDown" PreviewMouseLeftButtonUp="Button_PreviewMouseLeftButtonUp" Margin="10">
+                                <Button.Template>
+                                    <ControlTemplate>
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="43*"/>
+                                                <ColumnDefinition Width="87*"/>
+                                            </Grid.ColumnDefinitions>
+                                            <Ellipse VerticalAlignment="Center" HorizontalAlignment="Center" Height="30" Width="30" Fill="{Binding Portrait,Converter={StaticResource ResourceKey=IconSourceConverter}}"></Ellipse>
+                                            <TextBlock Grid.Column="1" Text="{Binding UserName}" VerticalAlignment="Center" />
+                                        </Grid>
+                                    </ControlTemplate>
+                                </Button.Template>
+                            </Button>
+                            <Button Grid.Column="1" PreviewMouseLeftButtonDown="Button_PreviewMouseLeftButtonDown" PreviewMouseLeftButtonUp="Button_PreviewMouseLeftButtonUp" VerticalAlignment="Center">
+                                <Button.Template>
+                                    <ControlTemplate>
+                                        <Rectangle Grid.Column="1" Style="{StaticResource ResourceKey=Lits_Recangle}" Margin="2" Fill="{Binding Message,Converter={StaticResource ResourceKey=IconSourceConverter}}"></Rectangle>
+                                    </ControlTemplate>
+                                </Button.Template>
+                            </Button>
+                            <Button Grid.Column="2" PreviewMouseLeftButtonDown="Button_PreviewMouseLeftButtonDown" PreviewMouseLeftButtonUp="Button_PreviewMouseLeftButtonUp" VerticalAlignment="Center">
+                                <Button.Template>
+                                    <ControlTemplate>
+                                        <Rectangle Grid.Column="2" Style="{StaticResource ResourceKey=Lits_Recangle}" Margin="2" Fill="{Binding Setting,Converter={StaticResource ResourceKey=IconSourceConverter}}"></Rectangle>
+                                    </ControlTemplate>
+                                </Button.Template>
+                            </Button>
+                        </Grid>
+                    </Border>
+                </Grid>
+            </Border>
+            <!--右侧主界面，模仿MSSTC，加载dll界面-->
+            <Grid Grid.Column="1" x:Name="Main">
+                <Border VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Grid.Row="1" x:Name="Inner">
+                </Border>
+            </Grid>
+        </Grid>
+        <!--底部播放栏-->
+        <Border Height="60" MinHeight="60" Grid.Row="2" BorderBrush="#A8A8A8" BorderThickness="0,0.5,0,0">
+            <Grid>
+                <Grid.Resources>
+                    <local:StringToImageSourceConverter x:Key="StringToImageSourceConverter"/>
+                </Grid.Resources>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="60" MaxWidth="60" MinWidth="60"></ColumnDefinition>
+                    <ColumnDefinition Width="180"  MaxWidth="180" MinWidth="180"></ColumnDefinition>
+                    <ColumnDefinition></ColumnDefinition>
+                    <ColumnDefinition Width="260"  MaxWidth="260" MinWidth="260"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <!--专辑封面-->
+                <Image Grid.Column="0" Source="{Binding Img_Singer,Converter={StaticResource ResourceKey=StringToImageSourceConverter}}"></Image>
+                <!--播放按钮控制-->
+                <Grid Grid.Column="1">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="25*"></ColumnDefinition>
+                        <ColumnDefinition Width="35*"></ColumnDefinition>
+                        <ColumnDefinition Width="70*"></ColumnDefinition>
+                        <ColumnDefinition Width="35*"></ColumnDefinition>
+                        <ColumnDefinition Width="25*"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <Button Grid.Column="1" PreviewMouseLeftButtonDown="Button_PreviewMouseLeftButtonDown" PreviewMouseLeftButtonUp="Button_PreviewMouseLeftButtonUp" VerticalAlignment="Center" Command="{Binding PreviousSong}">
+                        <Button.Template>
+                            <ControlTemplate>
+                                <Rectangle Grid.Column="1" Style="{StaticResource ResourceKey=PlayControl_Recangle0}" Margin="2" Fill="{Binding Previous,Converter={StaticResource ResourceKey=IconSourceConverter}}"></Rectangle>
+                            </ControlTemplate>
+                        </Button.Template>
+                    </Button>
+                    <Button Grid.Column="2" PreviewMouseLeftButtonDown="Button_PreviewMouseLeftButtonDown" PreviewMouseLeftButtonUp="Button_PreviewMouseLeftButtonUp" VerticalAlignment="Center" HorizontalAlignment="Center" Command="{Binding PlaySong}">
+                        <Button.Template>
+                            <ControlTemplate>
+                                <Grid>
+                                    <Rectangle Grid.Column="1" Style="{StaticResource ResourceKey=PlayControl_Recangle1}" Margin="2" Fill="{Binding Play,Converter={StaticResource ResourceKey=IconSourceConverter}}"></Rectangle>
+                                </Grid>
+                            </ControlTemplate>
+                        </Button.Template>
+                    </Button>
+                    <Button Grid.Column="3" PreviewMouseLeftButtonDown="Button_PreviewMouseLeftButtonDown" PreviewMouseLeftButtonUp="Button_PreviewMouseLeftButtonUp" VerticalAlignment="Center" Command="{Binding NextSong}">
+                        <Button.Template>
+                            <ControlTemplate>
+                                <Rectangle Grid.Column="1" Style="{StaticResource ResourceKey=PlayControl_Recangle0}" Margin="2" Fill="{Binding Next,Converter={StaticResource ResourceKey=IconSourceConverter}}"></Rectangle>
+                            </ControlTemplate>
+                        </Button.Template>
+                    </Button>
+                </Grid>
+                <!--进度条-->
+                <Grid Grid.Column="2">
+                    <Grid.RowDefinitions>
+                        <RowDefinition></RowDefinition>
+                        <RowDefinition></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <Grid Grid.Row="0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        <StackPanel Grid.Column="0" Orientation="Horizontal" Margin="0,10,0,0" HorizontalAlignment="Left">
+                            <TextBlock Text="{Binding SingerName}" Foreground="#FF6B6262"></TextBlock>
+                            <TextBlock Text=" - "></TextBlock>
+                            <TextBlock Text="{Binding SongName}" Foreground="DarkGray"></TextBlock>
+                        </StackPanel>
+                        <StackPanel Grid.Column="1" Orientation="Horizontal" Margin="0,10,0,0" HorizontalAlignment="Right">
+                            <TextBlock Text="{Binding PlayingCurrentTime}" Foreground="#FF6B6262"></TextBlock>
+                            <TextBlock Text=" / "></TextBlock>
+                            <TextBlock Text="{Binding PlayingTotalTime}" Foreground="DarkGray"></TextBlock>
+                        </StackPanel>
+                    </Grid>
+                    <ProgressBar Grid.Row="1">
+                        
+                    </ProgressBar>
+                </Grid>
+                <!--右侧功能键-->
+                <Grid Grid.Column="3">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="2*"/>
+                        <ColumnDefinition Width="2*"/>
+                        <ColumnDefinition Width="2*"/>
+                        <ColumnDefinition Width="2*"/>
+                        <ColumnDefinition Width="2*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Rectangle Grid.Column="1" Style="{StaticResource ResourceKey=PlayControl_Recangle2}" Fill="{Binding Like,Converter={StaticResource ResourceKey=IconSourceConverter}}"></Rectangle>
+                    <Rectangle Grid.Column="2" Style="{StaticResource ResourceKey=PlayControl_Recangle2}" Fill="{Binding PlayMethod,Converter={StaticResource ResourceKey=IconSourceConverter}}"></Rectangle>
+                    <Rectangle Grid.Column="3" Style="{StaticResource ResourceKey=PlayControl_Recangle2}" Fill="{Binding Volume,Converter={StaticResource ResourceKey=IconSourceConverter}}"></Rectangle>
+                    <Rectangle Grid.Column="4" Style="{StaticResource ResourceKey=PlayControl_Recangle2}" Fill="{Binding PlayList,Converter={StaticResource ResourceKey=IconSourceConverter}}"></Rectangle>
+                </Grid>
+            </Grid>
+        </Border>
+    </Grid>
+</Window>
