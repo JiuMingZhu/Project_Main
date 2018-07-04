@@ -23,5 +23,10 @@ namespace UMCSearch
         {
             InitializeComponent();
         }
+
+        private void ExSearch_UserControlClicked(object sender, EventArgs e)
+        {
+            var ret = (sender as TextBox).Text;
+        }
     }
 }

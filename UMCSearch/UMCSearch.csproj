@@ -136,6 +136,10 @@
       <Project>{86d86d09-5208-4540-b4a6-27e2531ca85a}</Project>
       <Name>AppModel</Name>
     </ProjectReference>
+    <ProjectReference Include="..\AppResource\AppResource.csproj">
+      <Project>{0af6afcc-0c57-4ae8-8b66-f1965399dc0c}</Project>
+      <Name>AppResource</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

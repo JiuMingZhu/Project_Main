@@ -1,0 +1,54 @@
+﻿<UserControl x:Class="AppResource.CustomControls.ExSearch"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:AppResource.CustomControls"
+             xmlns:Converters="clr-namespace:AppResource.Themes.Converters"
+             mc:Ignorable="d" 
+             d:DesignHeight="50" d:DesignWidth="500">
+    <UserControl.Resources>
+        <Converters:String2BoolConverter x:Key="String2BoolConverter"/>
+    </UserControl.Resources>
+    <Border BorderBrush="#FF7D7D7D" BorderThickness="1">
+        <Grid Background="White" x:Name="grid">
+            <Label Content="搜索音乐、歌手、歌词、用户" VerticalAlignment="Center" FontSize="15" Foreground="#FF7D7D7D" IsEnabled="False" Height="30">
+                <Label.Style>
+                    <Style  TargetType="{x:Type Label}">
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding ElementName=tbx,Path=Text,Converter={StaticResource String2BoolConverter}}" Value="False">
+                                <Setter Property="Visibility" Value="Hidden"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Label.Style>
+            </Label>
+            <TextBox x:Name="tbx" VerticalAlignment="Center" FontSize="21.333" BorderThickness="0" Background="#00FFFFFF"/>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                <Button Height="15" Width="15" Click="Button_Click">
+                    <Button.Style>
+                        <Style  TargetType="{x:Type Button}">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding ElementName=tbx,Path=Text,Converter={StaticResource String2BoolConverter}}" Value="True">
+                                    <Setter Property="Visibility" Value="Hidden"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Button.Style>
+                    <Button.Template>
+                        <ControlTemplate>
+                            <Image x:Name="Clear" Source="pack://SiteOfOrigin:,,,/Image/Icon/Clear.png"/>
+                        </ControlTemplate>
+                    </Button.Template>
+                </Button>
+                <Button Height="21.333" Width="21.333" Click="Button_Click_1">
+                    <Button.Template>
+                        <ControlTemplate>
+                            <Image Source="pack://SiteOfOrigin:,,,/Image/Icon/Search.png"/>
+                        </ControlTemplate>
+                    </Button.Template>
+                </Button>
+            </StackPanel>
+        </Grid>
+    </Border>
+</UserControl>

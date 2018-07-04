@@ -28,7 +28,7 @@ namespace UMCSearch
 
         void BtnClick(string data)
         {
-            MessageBox.Show("成功加载UserControl，ViewModel可用");
+            MessageBox.Show("成功加载UserControl，绑定成功！收到的参数为"+(data as  string));
         }
     }
 }
