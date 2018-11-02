@@ -30,9 +30,9 @@ namespace AppResource.CustomControls
             InitializeComponent();
             previewSelectedIndex = MyTabControl.SelectedIndex;
             translateTransform = new TranslateTransform();
-            foreach(var item in MyTabControl.Items)
+            foreach (var item in MyTabControl.Items)
             {
-                if(item is TabItem)
+                if (item is TabItem)
                 {
                     (item as TabItem).Loaded += TabItem_Loaded;
                 }
@@ -41,7 +41,7 @@ namespace AppResource.CustomControls
 
         private void TabItem_Loaded(object sender, RoutedEventArgs e)
         {
-            
+
         }
 
         private void TabItem_Initialized(object sender, EventArgs e)
@@ -55,8 +55,8 @@ namespace AppResource.CustomControls
             ((temp.SelectedItem as TabItem).Content as Grid).RenderTransform = translateTransform;
             daX = new DoubleAnimation()
             {
-                Duration = TimeSpan.FromMilliseconds(500),
-                From = (temp.SelectedIndex - previewSelectedIndex) * 150,
+                Duration = TimeSpan.FromMilliseconds(250),
+                From = (temp.SelectedIndex > previewSelectedIndex ? 1 : -1) * 50,
                 To = 0
             };
             previewSelectedIndex = temp.SelectedIndex;

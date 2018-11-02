@@ -15,20 +15,26 @@ namespace UMCSearch
             }
             else
             {
-                click = new GalaSoft.MvvmLight.Command.RelayCommand<string>(BtnClick);
+                clickCommand = new GalaSoft.MvvmLight.Command.RelayCommand<string>(BtnClick);
             }
         }
-        private  GalaSoft.MvvmLight.Command.RelayCommand<string> click;
+        private  GalaSoft.MvvmLight.Command.RelayCommand<string> clickCommand;
 
-        public  GalaSoft.MvvmLight.Command.RelayCommand<string> Click
+        public  GalaSoft.MvvmLight.Command.RelayCommand<string> ClickCommand
         {
-            get { return click; }
-            set { click = value; }
+            get { return clickCommand; }
+            set { clickCommand = value; }
         }
+
 
         void BtnClick(string data)
         {
             MessageBox.Show("成功加载UserControl，绑定成功！收到的参数为"+(data as  string));
+        }
+
+        void LoadedCommand(object sender, EventArgs e)
+        {
+
         }
     }
 }

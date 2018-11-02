@@ -19,8 +19,6 @@ namespace AppResource.CustomControls
     /// </summary>
     public partial class ExSearch : UserControl
     {
-        public event EventHandler UserControlClicked;
-
         public static readonly DependencyProperty SearchCommandProperty =
             DependencyProperty.Register("SearchCommand", typeof(ICommand), typeof(ExSearch), new PropertyMetadata(null));
 
@@ -44,8 +42,7 @@ namespace AppResource.CustomControls
         {
             if (!string.IsNullOrEmpty(tbx.Text))
             {
-                SearchCommand.Execute(tbx.Text);
-                UserControlClicked?.Invoke(tbx, null);
+                SearchCommand?.Execute(tbx.Text);
             }
         }
     }

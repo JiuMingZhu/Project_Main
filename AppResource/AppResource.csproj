@@ -63,6 +63,8 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>Lib\System.Data.SQLite.Linq.dll</HintPath>
     </Reference>
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Windows.Interactivity, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\MvvmLightLibs.5.3.0.0\lib\net40\System.Windows.Interactivity.dll</HintPath>
       <Private>True</Private>
@@ -82,6 +84,9 @@
   <ItemGroup>
     <Compile Include="CustomControls\ExSearch.xaml.cs">
       <DependentUpon>ExSearch.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="CustomControls\ExSuggestions.xaml.cs">
+      <DependentUpon>ExSuggestions.xaml</DependentUpon>
     </Compile>
     <Compile Include="CustomControls\ExTabItem.xaml.cs">
       <DependentUpon>ExTabItem.xaml</DependentUpon>
@@ -125,6 +130,7 @@
     <Content Include="Image\Icon\CreateFaviourtes.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Resource Include="Image\Icon\Delete.png" />
     <Content Include="Image\Icon\Downloads.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -236,13 +242,13 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="CustomControls\ExTabItem.xaml">
+    <Page Include="CustomControls\ExSuggestions.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Simple Styles.xaml">
-      <Generator>MSBuild:Compile</Generator>
+    <Page Include="CustomControls\ExTabItem.xaml">
       <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Themes\Generic.xaml">
       <Generator>MSBuild:Compile</Generator>
